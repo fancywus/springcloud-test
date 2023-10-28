@@ -1,7 +1,7 @@
 # springcloud-test
 this repository for my learn springcloud test project
 this project use springboot、springcloud、springcloudalibaba framework
-if you dont how use springcloud technology, can watch my project.
+if you don't how use springcloud technology, can watch my project.
 There are:
   1.config and use registration and discovery service instance.
   2.config and use loadbalance to use many node instance.
