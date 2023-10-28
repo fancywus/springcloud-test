@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: producerService
+  cloud:
+#    zookeeper:
+#      config:
+#        enabled: true
+#        root: /shop
+#      connect-string: 121.37.238.132:2181,121.37.238.132:2182,121.37.238.132:2183
+    nacos:
+      discovery:
+        # 项目在启动时，去哪个地址注册服务
+        server-addr: ${nacos-server-ip}
+        #设置实例属于哪个集群
+        cluster-name: SH
+        #设置服务权重
+        weight: 1
+        #设置命名空间id，用于环境配置隔离，跨命名空间的服务无法调用
+        namespace: 6afd8ea0-33dc-4162-aebc-c0039a1620c6
+        username: nacos
+        password: nacos
+      #设置文件后缀名
+      config:
+        # 项目在启动时，去哪个地址读取配置
+        server-addr: ${nacos-server-ip}
+        file-extension: yaml
+        #namespace不写时去默认名称空间获取
+        namespace: 6afd8ea0-33dc-4162-aebc-c0039a1620c6
+        username: nacos
+        password: nacos
+#单机版nacos地址
+nacos-server-ip: http://121.37.238.132:8848
+#集群班nginx代理的nacos地址
+#nacos-server-ip: 39.108.57.96:8847
+#eureka-server-port: 8030
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:${eureka-server-port}/eureka/
+#    # 获取服务提供者的地址信息
+#    fetch-registry: true
+#    # 配置是否将自己注册到Eureka-Server中
+#    register-with-eureka: true

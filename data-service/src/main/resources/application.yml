@@ -1,0 +1,93 @@
+server:
+  port: 8040
+spring:
+  application:
+    name: dataService
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springcloud?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+#  redis:
+#    # 主节点配置
+#    host: 39.108.57.96
+#    port: 6379
+#    #设置密码
+#    password: fancywu
+#    # 从节点配置
+#    sentinel:
+#      # 主节点名称
+#      master: mymaster
+#      # 配置sentinel的从节点1地址:端口,从节点2地址:端口,从节点3地址:端口
+#      nodes: 39.108.57.96:26381,39.108.57.96:26380,39.108.57.96:26379
+#      #设置密码
+#      password: fancywu
+  #cache:
+    #指定缓存使用哪家
+    #type: redis
+    #指定缓存的redis配置
+    #redis:
+      #设置缓存的空间名称前缀是否需要，例如：set namespace::key value变成 set key value
+      #use-key-prefix: false
+      #key的存活时间，相当于setex 设置key的过期时间
+      #time-to-live: 10s
+      #是否缓存空值
+      #cache-null-values: false
+      #增加自定义的前缀到key前面，相当于set namespace::key value变成 set spring_namespace::key value
+      #key-prefix: spring_
+mybatis:
+  #指定需要扫描的mapper文件路径
+  mapper-locations: classpath:/mapper/*.xml
+  #指设置配置的日志输出信息
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #二级缓存需要手动开启
+    #cache-enabled: true
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #二级缓存需要手动开启
+    #cache-enabled: true
+#配置openFeign所在包的打印日志级别
+logging:
+  level:
+    com.cn.dao: debug
+#jetcache缓存配置
+#官方配置文章
+#https://github.com/alibaba/jetcache/blob/master/jetcache-test/src/test/resources/config/application-redis.yml
+jetcache:
+  #local表示本地缓存，一级缓存配置
+  local:
+    #缓存的区域，key的第一级别前缀，默认就是default
+    default:
+      #选用的本地缓存类型
+      type: linkedhashmap
+      #key的序列化转换器
+      keyConverter: fastjson
+    easyExpire:
+      type: linkedhashmap
+      keyConverter: fastjson
+  #remote表示远程缓存，二级缓存配置, jetcache官方目前还不支持哨兵模式的读写分离缓存机制，只支持非哨兵的主从分离
+#  remote:
+#    #缓存的区域，key的第一级别前缀，默认就是default
+#    default:
+#      #选用的远程缓存类型
+#      type: redis.lettuce
+#      #key的序列化转换器
+#      keyConverter: fastjson
+#      #value值的编解码类型
+#      valueEncoder: java
+#      valueDecoder: java
+#      #连接池配置,必须配置maxTotal数量，否则直接报错
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 8
+#        maxTotal: 8
+#      #使用sentinel做自动主备切换,格式redis-sentinel://password@host:port,host1:port1/?sentinelMasterId=mastername
+#      uri: redis-sentinel://fancywu@39.108.57.96:26381,39.108.57.96:26380,39.108.57.96:26379/?sentinelMasterId=mymaster
+#      #优先从从节点读取数据
+#      readFrom: slavePreferred
+

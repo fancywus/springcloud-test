@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.dao.ScoreMapper">
+
+  <resultMap id="BaseResultMap" type="com.cn.entity.Score">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sid" jdbcType="INTEGER" property="sid" />
+    <result column="score" jdbcType="VARCHAR" property="score" />
+  </resultMap>
+
+<!--  <resultMap id="RelationResultMap" type="com.cn.entity.Score">-->
+<!--    <id column="id" jdbcType="INTEGER" property="id" />-->
+<!--    <result column="sid" jdbcType="INTEGER" property="sid" />-->
+<!--    <result column="score" jdbcType="VARCHAR" property="score" />-->
+<!--    <association property="user" javaType="com.cn.entity.TblUser" >-->
+<!--      <result column="id" jdbcType="INTEGER" property="id"/>-->
+<!--      <result column="name" jdbcType="VARCHAR" property="name"/>-->
+<!--      <result column="grade" jdbcType="VARCHAR" property="grade"/>-->
+<!--      <result column="email" jdbcType="VARCHAR" property="email"/>-->
+<!--    </association>-->
+<!--  </resultMap>-->
+
+<!--  <resultMap id="CollectionRelationResultMap" type="com.cn.entity.Score">-->
+<!--    <id column="id" jdbcType="INTEGER" property="id" />-->
+<!--    <result column="sid" jdbcType="INTEGER" property="sid" />-->
+<!--    <result column="score" jdbcType="VARCHAR" property="score" />-->
+<!--    <collection property="user" ofType="com.cn.entity.TblUser">-->
+<!--      <result column="id" jdbcType="INTEGER" property="id"/>-->
+<!--      <result column="name" jdbcType="VARCHAR" property="name"/>-->
+<!--      <result column="grade" jdbcType="VARCHAR" property="grade"/>-->
+<!--      <result column="email" jdbcType="VARCHAR" property="email"/>-->
+<!--    </collection>-->
+<!--  </resultMap>-->
+
+<!--  <resultMap id="TwoStepResultMap" type="com.cn.entity.Score">-->
+<!--    <id column="id" jdbcType="INTEGER" property="id" />-->
+<!--    <result column="sid" jdbcType="INTEGER" property="sid" />-->
+<!--    <result column="score" jdbcType="VARCHAR" property="score" />-->
+<!--    <association property="user"-->
+<!--                 select="com.cn.dao.TblUserMapper.selectUser"-->
+<!--                 column="id"/>-->
+<!--  </resultMap>-->
+
+  <sql id="Base_Column_List">
+    id, sid, score
+  </sql>
+
+<!--  <sql id="Relation_Colum_List">-->
+<!--    s.id, s.sid, s.score, u.id, u.name, u.grade, u.email-->
+<!--  </sql>-->
+
+<!--  <sql id="TwoStep_Colum_List">-->
+<!--    s.id, s.sid, s.score, id-->
+<!--  </sql>-->
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from score
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from score
+  </select>
+
+  <!--  <select id="selectScoreAndUserScore" parameterType="java.lang.Integer" resultMap="RelationResultMap">-->
+<!--    SELECT-->
+<!--      <include refid="Relation_Colum_List"/>-->
+<!--    FROM-->
+<!--      `score` as s-->
+<!--        LEFT JOIN-->
+<!--      `user` as u-->
+<!--      on-->
+<!--        s.sid = u.id-->
+<!--    <where>-->
+<!--      <if test="id != null">-->
+<!--        sid = #{id}-->
+<!--      </if>-->
+<!--    </where>-->
+<!--  </select>-->
+
+<!--  <select id="selectScoreList" parameterType="java.lang.Integer" resultMap="CollectionRelationResultMap">-->
+<!--    SELECT-->
+<!--    <include refid="Relation_Colum_List"/>-->
+<!--    FROM-->
+<!--    `score` as s-->
+<!--    LEFT JOIN-->
+<!--    `user` as u-->
+<!--    on-->
+<!--    s.sid = u.id-->
+<!--    <where>-->
+<!--      <if test="id != null">-->
+<!--        sid = #{id}-->
+<!--      </if>-->
+<!--    </where>-->
+<!--  </select>-->
+
+<!--  <select id="selectScoreScore" parameterType="java.lang.Integer" resultType="com.cn.entity.Score">-->
+<!--    select-->
+<!--        <include refid="TwoStep_Colum_List"/>-->
+<!--    from-->
+<!--        `score` as s-->
+<!--    <where>-->
+<!--      <if test="id != null">-->
+<!--        sid = #{id}-->
+<!--      </if>-->
+<!--    </where>-->
+<!--  </select>-->
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from score
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.cn.entity.Score">
+    insert into score (id, sid, score
+      )
+    values (#{id,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, #{score,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.cn.entity.Score">
+    insert into score
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sid != null">
+        sid,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sid != null">
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.entity.Score">
+    update score
+    <set>
+      <if test="sid != null">
+        sid = #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.cn.entity.Score">
+    update score
+    set sid = #{sid,jdbcType=INTEGER},
+      score = #{score,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

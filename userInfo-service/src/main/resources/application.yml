@@ -1,0 +1,52 @@
+server:
+  port: 8015
+nacos:
+  server-ip: http://121.37.238.132:8848
+spring:
+  application:
+    name: userInfoService
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/userservice?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.server-ip}
+        username: nacos
+        password: nacos
+        weight: 1
+        cluster-name: SZ
+mybatis:
+  #指定需要扫描的mapper文件路径
+  mapper-locations: classpath:/mapper/*.xml
+  #指设置配置的日志输出信息
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #二级缓存需要手动开启
+    #cache-enabled: true
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #二级缓存需要手动开启
+    #cache-enabled: true
+#配置所在包的打印日志级别
+logging:
+  level:
+    com.cn.dao: debug
+#jetcache缓存配置
+#官方配置文章
+#https://github.com/alibaba/jetcache/blob/master/jetcache-test/src/test/resources/config/application-redis.yml
+jetcache:
+  #local表示本地缓存，一级缓存配置
+  local:
+    #缓存的区域，key的第一级别前缀，默认就是default
+    default:
+      #选用的本地缓存类型
+      type: linkedhashmap
+      #key的序列化转换器
+      keyConverter: fastjson

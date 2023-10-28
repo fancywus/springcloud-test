@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.cn</groupId>
+    <artifactId>springcloud-shop</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <!--这个文件只作为配置文件，就是依赖的配置文件-->
+    <packaging>pom</packaging>
+    <modules>
+        <module>producer</module>
+        <module>shop-common</module>
+        <module>shop-order</module>
+        <module>gateway</module>
+        <module>data-service</module>
+        <module>userInfo-service</module>
+        <module>userPoint-service</module>
+        <module>client-service</module>
+    </modules>
+
+    <!--统一配置依赖版本-->
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-boot.version>2.6.5</spring-boot.version>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <!--统一依赖配置版本管理-->
+    <!-- dependencyManagement里只是声明依赖，并不自动实现引入，需要子项目声明需要用的依赖。
+        如果不在子项目中声明依赖，是不会从父项目中继承下来的；
+        如果在子项目中写了该依赖项，但是没有指定具体版本，这时候才会从父项目中继承相应依赖，以及相应的version和scope;
+        如果在子项目中写了该依赖项，并且项目中指定了版本号，那么会使用子项目中指定的版本，不再使用父项目指定的依赖版本号。 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- SpringBoot 依赖配置 使用spring-boot-dependencies，不再继承spring-boot-starter-parent -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- SpringCloud 依赖配置 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- SpringCloudAlibaba 依赖配置 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

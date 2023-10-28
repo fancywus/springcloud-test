@@ -1,0 +1,147 @@
+server:
+  port: 8050
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springcloud?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  application:
+    name: userService
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos-server-ip}
+        #设置实例属于哪个集群
+        cluster-name: BJ
+        #设置服务权重
+        weight: 1
+        username: nacos
+        password: nacos
+    sentinel:
+      #关闭sentinel的过滤器（如果不设置或者不关闭，会出现重复统计问题）
+      filter:
+        enabled: false
+      transport:
+        #这里的 spring.cloud.sentinel.transport.port 相当于监控端口
+        #端口配置会在应用对应的机器上启动一个 Http Server，该 Server 会与 Sentinel 控制台做交互。
+        #比如 Sentinel 控制台添加了一个限流规则，会把规则数据 push 给这个 Http Server 接收，Http Server 再将规则注册到 Sentinel 中。
+        port: 8791
+        #管理界面地址
+        dashboard: localhost:8010
+      #sentinel默认会将controller做context整合，导致链路模式的流控失效，需要设置为false
+      web-context-unify: false
+      #配置使用nacos作为持久化限流规则
+      datasource:
+        #自定义名称
+        ds1:
+          nacos:
+            server-addr: ${nacos-server-ip}
+            data-id: ${spring.application.name}-sentinel-flow
+            group-id: DEFAULT_GROUP
+            #这个名称的规则类型，flow代表限流规则
+            #取值见： org.springframework.cloud.alibaba.sentinel.datasource.RuleType
+            rule-type: flow
+            username: nacos
+            password: nacos
+        ds2:
+          nacos:
+            server-addr: ${nacos-server-ip}
+            data-id: ${spring.application.name}-sentinel-degrade
+            group-id: DEFAULT_GROUP
+            #这个名称的规则类型，degrade代表降级规则
+            #取值见： org.springframework.cloud.alibaba.sentinel.datasource.RuleType
+            rule-type: degrade
+            username: nacos
+            password: nacos
+        ds3:
+          nacos:
+            server-addr: ${nacos-server-ip}
+            data-id: ${spring.application.name}-sentinel-param-flow
+            group-id: DEFAULT_GROUP
+            #这个名称的规则类型，param_flow代表热点参数限流规则
+            #取值见： org.springframework.cloud.alibaba.sentinel.datasource.RuleType
+            rule-type: param_flow
+            username: nacos
+            password: nacos
+        #ds4:
+          #nacos:
+            #server-addr: ${nacos-server-ip}
+            #data-id: ${spring.application.name}-sentinel-system
+            #group-id: DEFAULT_GROUP
+            ##这个名称的规则类型，system代表系统自适应限流规则
+            ##取值见： org.springframework.cloud.alibaba.sentinel.datasource.RuleType
+            #rule-type: system
+            #username: nacos
+            #password: nacos
+        ds5:
+          nacos:
+            server-addr: ${nacos-server-ip}
+            data-id: ${spring.application.name}-sentinel-authority
+            group-id: DEFAULT_GROUP
+            #这个名称的规则类型，authority代表系统黑白名单限流规则
+            #取值见： org.springframework.cloud.alibaba.sentinel.datasource.RuleType
+            rule-type: authority
+            username: nacos
+            password: nacos
+#单机版nacos地址
+nacos-server-ip: http://121.37.238.132:8848
+feign:
+  #使用该连接池配置
+  httpclient:
+    enabled: true
+    #最大连接数
+    max-connections: 200
+    #单个路径的最大连接数
+    max-connections-per-route: 50
+  client:
+    config:
+      # 配置feign日志级别 FULL HEADERS BASIC NONE
+      default:
+        loggerLevel: basic
+  #开启feign支持sentinel配置
+  sentinel:
+    enabled: true
+mybatis:
+  #指定需要扫描的mapper文件路径
+  mapper-locations: classpath:/mapper/*.xml
+  #指设置配置的日志输出信息
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#配置openFeign所在包的打印日志级别
+logging:
+  level:
+    com.cn.clients: debug
+    com.cn.dao: debug
+#集群班nginx代理的nacos地址
+#nacos-server-ip: 39.108.57.96:8847
+#  cloud:
+#    zookeeper:
+#      connect-string: 121.37.238.132:2181,121.37.238.132:2182,121.37.238.132:2183
+#      discovery:
+#        metadata:
+#          #这个配置，就是在注册服务之后，可以添加一些业务数据，
+#          #如版本，如region等等，可以在后续开发gateway的过程中，
+#          #或者使用loadbalancer实现灰度发布，蓝绿发布等等的功能
+#          version: 1.0.0
+#        #这里，设置服务注册的跟节点，查看zkui，默认的根节点是/services，
+#        #可以设置成多级目录，如第一级目录为项目名，第二级目录为环境名等等，
+#        #如/cms/dev,则就是cms项目dev环境，
+#        #千万不要使用spring.cloud.zookeeper.prefix，
+#        #我也不知道为什么，加了这个参数之后，就无法发现服务了
+#        root: /shop
+#eureka-server-port: 8030
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:${eureka-server-port}/eureka/
+#    # 获取服务提供者的地址信息
+#    fetch-registry: true
+#    # 配置是否将自己注册到Eureka-Server中
+#    register-with-eureka: true

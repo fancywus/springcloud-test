@@ -1,0 +1,64 @@
+server:
+  port: 8060
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springcloud?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  application:
+    name: orderService
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos-server-ip}
+        #设置实例属于哪个集群
+        cluster-name: SZ
+        #设置服务权重
+        weight: 1
+        username: nacos
+        password: nacos
+#单机版nacos地址
+nacos-server-ip: http://121.37.238.132:8848
+mybatis:
+  #指定需要扫描的mapper文件路径
+  mapper-locations: classpath:/mapper/*.xml
+  #指设置配置的日志输出信息
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#配置openFeign所在包的打印日志级别
+logging:
+  level:
+    com.cn.dao: debug
+#集群班nginx代理的nacos地址
+#nacos-server-ip: 39.108.57.96:8847
+#  cloud:
+#    zookeeper:
+#      connect-string: 121.37.238.132:2181,121.37.238.132:2182,121.37.238.132:2183
+#      discovery:
+#        metadata:
+#          #这个配置，就是在注册服务之后，可以添加一些业务数据，
+#          #如版本，如region等等，可以在后续开发gateway的过程中，
+#          #或者使用loadbalancer实现灰度发布，蓝绿发布等等的功能
+#          version: 1.0.0
+#        #这里，设置服务注册的跟节点，查看zkui，默认的根节点是/services，
+#        #可以设置成多级目录，如第一级目录为项目名，第二级目录为环境名等等，
+#        #如/cms/dev,则就是cms项目dev环境，
+#        #千万不要使用spring.cloud.zookeeper.prefix，
+#        #我也不知道为什么，加了这个参数之后，就无法发现服务了
+#        root: /shop
+#eureka-server-port: 8030
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:${eureka-server-port}/eureka/
+#    # 获取服务提供者的地址信息
+#    fetch-registry: true
+#    # 配置是否将自己注册到Eureka-Server中
+#    register-with-eureka: true

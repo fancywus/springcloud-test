@@ -1,0 +1,67 @@
+server:
+  port: 8099
+#nacos-server-ip: http://121.37.238.132:8848
+spring:
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true #开启通过服务中心的自动根据 serviceId 创建路由的功能
+gateway:
+  routes:
+    config:
+      data-id: gatewayService.yaml
+      group: DEFAULT_GROUP
+      username: nacos
+      password: nacos
+#  application:
+#    name: gatewayService
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: ${nacos-server-ip}
+#        #设置实例属于哪个集群
+#        cluster-name: SZ
+#        #设置服务权重
+#        weight: 1
+#        username: nacos
+#        password: nacos
+#    gateway:
+#      #网管路由配置数组
+#      routes:
+#        - id: orderService #路由id，自定义唯一即可
+#          uri: lb://orderService #lb表示负载均衡到那个服务实例
+#          #路由断言，也就是判断请求是否符合路由规则条件
+#          predicates:
+#            - Path=/order/** #路径断言规则，以/order/开头请求则符合该断言
+#            #- Method=GET,POST 可以配置多个规则链
+#          #添加过滤器
+#          filters:
+#          - AddRequestHeader=token,123456789
+#        - id: userService
+#          uri: lb://userService #lb表示负载均衡到那个服务实例
+#          #路由断言，也就是判断请求是否符合路由规则条件
+#          predicates:
+#            - Path=/user/** #路径断言规则，以/user/开头请求则符合该断言
+#      # 默认过滤器，对所有的服务都生效
+#      default-filters:
+#      - AddRequestHeader=test,test value is 000
+#      #全局跨域处理
+#      globalcors:
+#        add-to-simple-url-handler-mapping: true #是否允许浏览器用options方式询问服务器, gateway默认拦截
+#        cors-configurations:
+#          '[/**]':
+#            allowed-origins: #允许那些网站的跨域请求
+#              - "www.baidu.com"
+#            allowedMethods: #允许那些请求方式
+#              - "GET"
+#              - "POST"
+#              - "DELETE"
+#              - "PUT"
+#              - "OPTIONS"
+#            allowed-headers: "*" #允许请求中携带头信息
+#            allowCredentials: true #允许请求中携带cookie
+#            maxAge: 360000 #这次跨域的有效期时长
+

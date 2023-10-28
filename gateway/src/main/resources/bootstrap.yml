@@ -1,0 +1,21 @@
+nacos-server-ip: http://121.37.238.132:8848
+spring:
+  application:
+    name: gatewayService
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos-server-ip}
+        #设置实例属于哪个集群
+        cluster-name: SZ
+        #设置服务权重
+        weight: 1
+        username: nacos
+        password: nacos
+      #设置文件后缀名
+      config:
+        # 项目在启动时，去哪个地址读取配置
+        server-addr: ${nacos-server-ip}
+        file-extension: yaml
+        username: nacos
+        password: nacos
