@@ -32,7 +32,7 @@ public class FeignRequestFilter implements RequestInterceptor {
                 requestTemplate.header(name, value);
             }
         }
-        // 独立设置参数
+        // 子服务之间使用token访问，不再使用网关的值校验
         requestTemplate.header("token","tokenKey");
     }
 }

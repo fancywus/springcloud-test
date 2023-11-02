@@ -26,6 +26,7 @@ public class GatewayFromRequestFilter implements Filter {
         log.info("进入OrderService模块的GatewayFromRequestFilter... ");
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String gatewayKey = request.getHeader("gatewayKey");
+        // 如果没有符合的key，直接访问服务被拒绝
         if (!StringUtils.hasText(gatewayKey) && !"key".equals(gatewayKey)) {
             return;
         }

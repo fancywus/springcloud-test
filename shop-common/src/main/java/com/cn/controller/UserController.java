@@ -28,8 +28,7 @@ public class UserController {
     private OrderClient orderClient;
 
     @GetMapping("/all")
-    public String getAll(@RequestHeader(value = "test", required = false) String test) {
-        System.out.println("test: " + test);
+    public String getAll() {
         List<User> users = userService.selectAll();
         return users.toString();
     }

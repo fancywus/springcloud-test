@@ -29,6 +29,8 @@ import java.util.concurrent.Executor;
 @RefreshScope
 public class GatewayRouteInitConfig {
 
+    public static List<RouteDefinition> routeDefinitionList = null;
+
     @Resource
     private MyGatewayProperties myGatewayProperties;
 
@@ -86,6 +88,8 @@ public class GatewayRouteInitConfig {
                     for (RouteDefinition routeDefinition : routeDefinitions) {
                         routeService.add(routeDefinition);
                     }
+                    // 将运行的服务放到静态变量中
+                    routeDefinitionList = routeDefinitions;
                 } catch (JsonProcessingException e) {
                     log.error("解析路由配置出错，" + e.getMessage(), e);
                 }

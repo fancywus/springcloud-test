@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Properties;
 
@@ -19,6 +20,8 @@ import java.util.Properties;
 )
 // 开启Feign客户端功能，不加此注解默认也开启客户端功能
 @EnableFeignClients
+// 开启swagger文档
+@EnableSwagger2
 @Slf4j
 public class ShopCommonApplication
 {

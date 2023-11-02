@@ -1,6 +1,13 @@
 server:
   port: 8050
+# 使用统一网关作为swagger的文档地址
+gateway-server-port: 8099
 spring:
+  #Springfox使用的路径匹配是基于AntPathMatcher的，而Spring Boot 2.6.X以上使用的是PathPatternMatcher
+  #解决springboot的版本和Springfox-Swagge的版本不兼容
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/springcloud?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
@@ -119,6 +126,13 @@ logging:
   level:
     com.cn.clients: debug
     com.cn.dao: debug
+swagger:
+  enabled: true
+  host: localhost:${gateway-server-port}
+  desc: ${spring.application.name}
+  title: "用户服务 接口文档"
+  # 项目版本号：读取pom.xml project.version
+  version: @project.version@
 #集群班nginx代理的nacos地址
 #nacos-server-ip: 39.108.57.96:8847
 #  cloud:
