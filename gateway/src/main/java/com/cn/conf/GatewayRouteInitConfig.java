@@ -23,6 +23,7 @@ import java.util.concurrent.Executor;
 /**
  * 动态路由主要实现
  * @PostConstruc 注解的作用，在spring bean的生命周期依赖注入完成后被调用的方法
+ * RefreshRemoteApplicationEvent: 远程配置刷新事件。配合 @RefreshScope以及所有的 @ConfigurationProperties 注解修饰的配置类的动态刷新。
  */
 @Component
 @Slf4j

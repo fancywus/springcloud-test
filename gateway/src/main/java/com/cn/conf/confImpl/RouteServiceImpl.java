@@ -17,13 +17,14 @@ import javax.annotation.Resource;
  * 实现路由配置方法，同时设置事件发布
  * ApplicationEventPublisherAware是ApplicationContext的父接口之一，
  * 他的功能就是发布事件，也就是把某个事件告诉所有与这个事件相关的监听器
+ * RefreshRemoteApplicationEvent: 远程配置刷新事件。配合 @RefreshScope以及所有的 @ConfigurationProperties 注解修饰的配置类的动态刷新。
  */
 @Component
 @Slf4j
 public class RouteServiceImpl implements RouteService, ApplicationEventPublisherAware {
 
     /**
-     * 提供了对路由的增加删除等操作
+     *  路由信息写入器
      */
     @Resource
     private RouteDefinitionWriter routeDefinitionWriter;
@@ -41,6 +42,7 @@ public class RouteServiceImpl implements RouteService, ApplicationEventPublisher
         // 保存路由最新配置
         routeDefinitionWriter.save(Mono.just(routeDefinition)).subscribe();
         // 通过事件发布者发布刷新路由
+        // gateway是提供了刷新的事件的，那就是RefreshRoutesEvent
         this.publisher.publishEvent(new RefreshRoutesEvent(this));
     }
 
@@ -50,6 +52,7 @@ public class RouteServiceImpl implements RouteService, ApplicationEventPublisher
         // 保存路由最新配置
         routeDefinitionWriter.save(Mono.just(routeDefinition)).subscribe();
         // 通过事件发布者发布刷新路由
+        // gateway是提供了刷新的事件的，那就是RefreshRoutesEvent
         this.publisher.publishEvent(new RefreshRoutesEvent(this));
     }
 
