@@ -107,8 +107,11 @@ feign:
   client:
     config:
       # 配置feign日志级别 FULL HEADERS BASIC NONE
+      #default表示全局配置，针对某个服务需要写具体服务名称再配置
       default:
         loggerLevel: basic
+        #connect-timeout: 100 # Feign的连接建立超时时间，默认为10秒,单位 ms
+        #read-timeout: 100 #Feign的请求处理超时时间，默认为60秒, 单位 ms
   #开启feign支持sentinel配置
   sentinel:
     enabled: true
