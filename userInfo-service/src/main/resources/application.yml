@@ -20,7 +20,7 @@ spring:
         username: nacos
         password: nacos
         weight: 1
-        cluster-name: BJ
+        cluster-name: SZ
 mybatis:
   #指定需要扫描的mapper文件路径
   mapper-locations: classpath:/mapper/*.xml
